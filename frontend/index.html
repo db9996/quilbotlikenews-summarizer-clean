@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quilbot News Summarizer - AI-Powered Indian News Summary</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📰 News Summarizer</h1>
+            <p>AI-powered summarization for Indian English news articles</p>
+        </header>
+
+        <main>
+            <!-- Input Section -->
+            <section class="input-section">
+                <label for="newsInput"><i>Enter Your News Article</i></label>
+                <textarea 
+                    id="newsInput" 
+                    placeholder="Paste a detailed news article here (minimum 100 words required)."
+                    rows="12"
+                ></textarea>
+                <div class="word-count">
+                    <span id="inputWordCount">0 words</span>
+                </div>
+            </section>
+
+            <!-- Controls -->
+            <section class="controls">
+                <div class="word-limit">
+                    <label for="wordLimit">Summary Length</label>
+                    <select id="wordLimit">
+                        <option value="50">Short (50 words)</option>
+                        <option value="75" selected>Medium (75 words)</option>
+                        <option value="100">Long (100 words)</option>
+                    </select>
+                </div>
+                <button id="summarizeBtn" class="btn-primary">
+                    ✨ Summarize
+                </button>
+                <button id="clearBtn" class="btn-secondary">
+                    🗑️ Clear
+                </button>
+            </section>
+
+            <!-- Loading Indicator -->
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Analyzing and summarizing your article...</p>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="error" style="display: none;"></div>
+
+            <!-- Output Section -->
+            <section class="output-section" id="outputSection" style="display: none;">
+                <h3>Summary</h3>
+                <div id="summaryOutput" class="summary-box"></div>
+                <div class="summary-stats">
+                    <span id="summaryWordCount"></span>
+                </div>
+                <div class="action-buttons">
+                    <button id="copyBtn" class="btn-secondary"> Copy Summary</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

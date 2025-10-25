@@ -1,0 +1,4 @@
+quilbot-news-summarizer/
+├── backend/
+├── frontend/
+└── README.md
