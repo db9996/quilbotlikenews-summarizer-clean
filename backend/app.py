@@ -1,7 +1,11 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from huggingface_hub import InferenceClient
+from dotenv import load_dotenv
 import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
@@ -9,10 +13,13 @@ CORS(app)
 # Load Hugging Face token from environment (.env file must set HF_TOKEN)
 HF_TOKEN = os.getenv('HF_TOKEN')
 if not HF_TOKEN:
-    raise ValueError("HF_TOKEN environment variable is not set!")
-client = InferenceClient(token=HF_TOKEN)
+    raise ValueError("HF_TOKEN environment variable is not set! Please set it in your .env file.")
 
-print("✓ Hugging Face client initialized successfully!")
+# Use a fast model for reliable results
+MODEL_NAME = "sshleifer/distilbart-cnn-12-6"
+
+client = InferenceClient(token=HF_TOKEN)
+print(f"✓ Hugging Face client initialized successfully with model: {MODEL_NAME}")
 
 @app.route('/', methods=['GET'])
 def home():
@@ -37,16 +44,15 @@ def summarize():
         if word_count < 100:
             return jsonify({'error': f'Text too short. Need at least 100 words. Got {word_count} words.'}), 400
         
-        # Summarize using Hugging Face
         print(f"Summarizing {word_count} words...")
 
-        # NOTE: Remove any unsupported parameters for client.summarization!
+        # Summarize using fast DistilBART model
         result = client.summarization(
             text,
-            model="facebook/bart-large-cnn"
+            model=MODEL_NAME
         )
         
-        # Some versions of Hugging Face CLI may return a dict with 'summary_text', sometimes just string.
+        # Handle all result types
         summary_text = result.get('summary_text') if isinstance(result, dict) else result
         summary_words = len(summary_text.split())
         
